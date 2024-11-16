@@ -1,8 +1,31 @@
-import { StatusBar as ExpoStatusBar } from "expo-status-bar";
-import { StyleSheet, Text, SafeAreaView, View, StatusBar } from "react-native";
+import { ThemeProvider } from "styled-components/native";
+import { RestaurantsScreen } from "./src/features/restaurants/screens/restaurants.screen";
 
+import {
+  useFonts as useOswald,
+  Oswald_400Regular,
+} from "@expo-google-fonts/oswald";
+import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
+
+import { theme } from "./src/infrastructure/theme/index";
 export default function App() {
-  return <></>;
-}
+  const [oswaldLoaded] = useOswald({
+    Oswald_400Regular,
+  });
 
-const styles = StyleSheet.create({});
+  const [latoLoaded] = useLato({
+    Lato_400Regular,
+  });
+
+  if (!oswaldLoaded || !latoLoaded) {
+    return null;
+  }
+
+  return (
+    <>
+      <ThemeProvider theme={theme}>
+        <RestaurantsScreen />
+      </ThemeProvider>
+    </>
+  );
+}
