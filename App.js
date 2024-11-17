@@ -47,7 +47,7 @@ export default function App() {
     const iconName = icons[route.name];
     return {
       tabBarIcon: ({ size, color }) => (
-        <Ionicons name={iconName} size={size} color={"tomato"} />
+        <Ionicons name={iconName} size={size} color={color} />
       ),
     };
   };
