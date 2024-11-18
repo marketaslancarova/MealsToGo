@@ -13,6 +13,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { theme } from "./src/infrastructure/theme/index";
 import { SafeArea } from "./src/components/spacer/safe-area.components";
 
+import { restaurantsRequest } from "./src/services/restaurants/restaurants.services";
+
+restaurantsRequest("37.7749295,-122.4194155").then((results) => {
+  console.log(results);
+});
+
 const icons = {
   Restaurants: "restaurant",
   Settings: "settings-sharp",
@@ -49,6 +55,8 @@ export default function App() {
       tabBarIcon: ({ size, color }) => (
         <Ionicons name={iconName} size={size} color={color} />
       ),
+      tabBarActiveTintColor: "tomato", // Barva aktivní ikony
+      tabBarInactiveTintColor: "gray", // Barva neaktivní ikony
     };
   };
   const Tab = createBottomTabNavigator();
@@ -59,10 +67,7 @@ export default function App() {
         <NavigationContainer>
           <Tab.Navigator
             screenOptions={createScreenOptions}
-            tabBarOptions={{
-              activeTintColor: "tomato",
-              inactiveTintColor: "gray",
-            }}
+            initialRouteName="Restaurants"
           >
             <Tab.Screen name="Settings" component={Settings} />
             <Tab.Screen name="Restaurants" component={RestaurantsScreen} />
