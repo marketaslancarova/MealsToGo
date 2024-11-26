@@ -12,13 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { theme } from "./src/infrastructure/theme/index";
 import { SafeArea } from "./src/components/spacer/safe-area.components";
-
-import { restaurantsRequest } from "./src/services/restaurants/restaurants.services";
-
-restaurantsRequest("37.7749295,-122.4194155").then((results) => {
-  console.log(results);
-});
-
+import { RestaurantsContextProvider } from "./src/services/restaurants/restaurants.context";
 const icons = {
   Restaurants: "restaurant",
   Settings: "settings-sharp",
@@ -64,16 +58,18 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <NavigationContainer>
-          <Tab.Navigator
-            screenOptions={createScreenOptions}
-            initialRouteName="Restaurants"
-          >
-            <Tab.Screen name="Settings" component={Settings} />
-            <Tab.Screen name="Restaurants" component={RestaurantsScreen} />
-            <Tab.Screen name="Map" component={Map} />
-          </Tab.Navigator>
-        </NavigationContainer>
+        <RestaurantsContextProvider>
+          <NavigationContainer>
+            <Tab.Navigator
+              screenOptions={createScreenOptions}
+              initialRouteName="Restaurants"
+            >
+              <Tab.Screen name="Settings" component={Settings} />
+              <Tab.Screen name="Restaurants" component={RestaurantsScreen} />
+              <Tab.Screen name="Map" component={Map} />
+            </Tab.Navigator>
+          </NavigationContainer>
+        </RestaurantsContextProvider>
       </ThemeProvider>
     </>
   );
