@@ -1,40 +1,50 @@
 import React, { useState, createContext, useEffect, useMemo } from "react";
+import PropTypes from "prop-types";
+
 import {
   restaurantsRequest,
   restaurantsTransform,
-} from "./restaurants.services";
+} from "../restaurants/restaurants.services";
 
 export const RestaurantsContext = createContext();
 
 export const RestaurantsContextProvider = ({ children }) => {
   const [restaurants, setRestaurants] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const retrieveRestaurants = () => {
-    setLoading(true);
-    setRestaurants([]);
+    setIsLoading(true);
     setTimeout(() => {
       restaurantsRequest()
         .then(restaurantsTransform)
         .then((results) => {
-          setLoading(false);
+          setIsLoading(false);
           setRestaurants(results);
         })
         .catch((err) => {
-          setLoading(false);
+          setIsLoading(false);
           setError(err);
         });
     }, 2000);
   };
-
   useEffect(() => {
     retrieveRestaurants();
   }, []);
 
   return (
-    <RestaurantsContext.Provider value={{ restaurants, loading, error }}>
+    <RestaurantsContext.Provider
+      value={{
+        restaurants,
+        isLoading,
+        error,
+      }}
+    >
       {children}
     </RestaurantsContext.Provider>
   );
+};
+
+RestaurantsContextProvider.propTypes = {
+  children: PropTypes.node,
 };
