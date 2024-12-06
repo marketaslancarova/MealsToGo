@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { FlatList } from "react-native";
+import { FlatList, Pressable } from "react-native";
 import styled from "styled-components/native";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 
@@ -24,9 +24,10 @@ const LoadingContainer = styled.View`
   left: 50%;
 `;
 
-export const RestaurantsScreen = () => {
+// eslint-disable-next-line react/prop-types
+export const RestaurantsScreen = ({ navigation }) => {
   const { isLoading, restaurants } = useContext(RestaurantsContext);
-
+  console.log(navigation);
   return (
     <SafeArea>
       {isLoading && (
@@ -40,9 +41,11 @@ export const RestaurantsScreen = () => {
         data={restaurants}
         renderItem={({ item }) => {
           return (
-            <Spacer position="bottom" size="large">
-              <RestaurantInfoCard restaurant={item} />
-            </Spacer>
+            <Pressable onPress={() => navigation.navigate("RestaurantDetail")}>
+              <Spacer position="bottom" size="large">
+                <RestaurantInfoCard restaurant={item} />
+              </Spacer>
+            </Pressable>
           );
         }}
         keyExtractor={(item) => item.name}
